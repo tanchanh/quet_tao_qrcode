@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quét Mã QR: Dán, Chọn, Kéo Thả - D.T.Chánh</title>
+    <title>Quét Và Tạo Mã QR - D.T.Chánh</title>
     <style>
         :root {
             --primary-color: #4f46e5;
@@ -18,68 +18,67 @@
             --bg-gradient: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%);
             --card-bg: #ffffff;
             --text-main: #1f2937;
-            --text-muted: #4b5563;
-            --border-color: #e5e7eb;
+            --border-color: #cbd5e1;
             --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
             --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Sử dụng font hệ thống mặc định và kích thước chữ thường 1.1 rem */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             font-size: 1.1rem;
-            /* Kích thước chữ thường theo quy tắc */
+            font-weight: normal;
             background: var(--bg-gradient);
             color: var(--text-main);
             margin: 0;
             padding: 0.5rem 0.5rem 5rem 0.5rem;
-            /* Padding bên dưới cùng là 5rem */
             line-height: 1.6;
-            box-sizing: border-box;
             word-break: break-word;
             min-height: 100vh;
-            /* Bố cục trang viết từ trên xuống, không căn giữa theo chiều dọc */
         }
 
-        /* Container chính co giãn linh hoạt, căn giữa theo chiều ngang */
         .content {
             background-color: var(--card-bg);
             padding: 1rem;
             border-radius: 1.3rem;
             box-shadow: var(--shadow);
-            max-width: 40rem;
+            max-width: 44rem;
             width: 100%;
-            box-sizing: border-box;
             margin: 0 auto;
             text-align: center;
         }
 
-        /* Quy tắc kích thước tiêu đề theo chuẩn */
         h1 {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
+            font-weight: bold;
+            text-align: center;
             color: var(--primary-color);
             margin-top: 0;
             margin-bottom: 0;
         }
 
-        /* Style cho phần tên tác giả */
         .author-name {
             font-size: 1.2rem;
             font-weight: normal;
-            /* Chữ thường nghĩa là font-weight: normal */
+            font-style: normal;
             text-align: right;
-            color: #000000;
+            color: var(--text-main);
             margin-bottom: 1rem;
         }
 
         h2 {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
+            font-weight: bold;
             color: var(--text-main);
             margin-top: 1.5rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 0.5rem;
         }
 
         h3 {
@@ -92,23 +91,101 @@
 
         p {
             margin-top: 0;
-            margin-bottom: 1.3rem;
+            margin-bottom: 1rem;
         }
 
-        /* Group các nút bấm */
+        /* Chuyển đổi Tab Quét / Tạo */
+        .tab-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.2rem;
+            background-color: #f1f5f9;
+            padding: 0.3rem;
+            border-radius: 0.8rem;
+            border: 2px solid var(--border-color);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 0.7rem 1rem;
+            font-size: 1.05rem;
+            font-weight: bold;
+            border: 2px solid transparent;
+            border-radius: 0.6rem;
+            background: transparent;
+            color: #64748b;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+        }
+
+        .tab-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .tab-btn.active {
+            background-color: #ffffff;
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Thẻ tuỳ chọn tiền xử lý */
+        .option-box {
+            background-color: #f8fafc;
+            border: 2px solid var(--border-color);
+            border-radius: 0.8rem;
+            padding: 0.8rem 1rem;
+            margin-bottom: 1.2rem;
+            text-align: left;
+        }
+
+        .toggle-label {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            cursor: pointer;
+            font-weight: bold;
+            user-select: none;
+        }
+
+        .toggle-checkbox {
+            width: 1.3rem;
+            height: 1.3rem;
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+
+        .option-desc {
+            font-size: 0.95rem;
+            color: #64748b;
+            margin-top: 0.3rem;
+            margin-bottom: 0;
+        }
+
         .btn-group {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 0.8rem;
-            margin-bottom: 1.3rem;
+            margin-bottom: 1.2rem;
         }
 
-        /* Style cho các nút chung */
         .btn {
             background-color: var(--primary-color);
-            color: white;
+            color: #ffffff;
             padding: 0.8rem 1.3rem;
-            border: none;
+            border: 2px solid transparent;
             border-radius: 0.8rem;
             font-size: 0.95rem;
             font-weight: bold;
@@ -131,7 +208,6 @@
             transform: translateY(0);
         }
 
-        /* Nút copy khi bị disabled */
         .btn:disabled {
             background-color: #e5e7eb;
             color: #9ca3af;
@@ -140,37 +216,42 @@
             transform: none;
         }
 
-        /* Nút chọn ảnh từ file - viền dày 2px theo quy tắc */
-        #select-file-button {
+        .btn-secondary {
             background-color: #e2e8f0;
             color: #0f172a;
             font-weight: bold;
             border: 2px solid #cbd5e1;
-            /* Viền phần tử dày 2px */
             box-shadow: none;
         }
 
-        #select-file-button:hover {
+        .btn-secondary:hover:not(:disabled) {
             background-color: #cbd5e1;
             transform: translateY(-2px);
         }
 
-        /* Nút ẩn cho việc chọn file */
+        .btn-success {
+            background-color: var(--success-color);
+            color: #ffffff;
+        }
+
+        .btn-success:hover:not(:disabled) {
+            background-color: #047857;
+        }
+
         #file-input {
             display: none;
         }
 
-        /* Khu vực hiển thị ảnh - viền nét đứt dày 2px */
+        /* Xem trước ảnh đã tải */
         #image-preview {
             max-width: 100%;
             height: auto;
-            margin-top: 1rem;
-            padding: 0.5rem;
-            border: 2px dashed #cbd5e1;
-            /* Viền phần tử dày 2px */
+            margin-top: 0.8rem;
+            padding: 0.6rem;
+            border: 2px dashed var(--border-color);
             border-radius: 0.8rem;
             background-color: #f8fafc;
-            min-height: 10rem;
+            min-height: 9rem;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -182,7 +263,6 @@
         #image-preview.has-image {
             border-style: solid;
             border-color: var(--border-color);
-            /* Viền phần tử dày 2px */
             background-color: #ffffff;
             padding: 0.6rem;
         }
@@ -203,18 +283,71 @@
         #preview-img {
             max-width: 100%;
             height: auto;
-            max-height: 18.8rem;
+            max-height: 18rem;
             display: block;
             border-radius: 0.5rem;
             box-shadow: var(--shadow);
         }
 
-        /* Khu vực kết quả - viền dày 2px */
-        .result-box {
-            margin-top: 0.9rem;
-            padding: 0.5rem;
+        /* Lưới hiển thị ảnh tiền xử lý */
+        .preprocess-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+            gap: 0.8rem;
+            margin-top: 0.8rem;
+            text-align: center;
+        }
+
+        .preprocess-card {
+            background-color: #f8fafc;
             border: 2px solid var(--border-color);
-            /* Viền phần tử dày 2px */
+            border-radius: 0.8rem;
+            padding: 0.5rem;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .preprocess-card.active-match {
+            border-color: var(--success-color);
+            background-color: var(--success-bg);
+            box-shadow: 0 0 0 2px var(--success-border);
+        }
+
+        .preprocess-card img {
+            width: 100%;
+            height: 7rem;
+            object-fit: contain;
+            background-color: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.4rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .preprocess-card .card-label {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: var(--text-main);
+            margin-bottom: 0.2rem;
+        }
+
+        .preprocess-card .card-badge {
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: var(--success-color);
+            background-color: #ffffff;
+            border: 2px solid var(--success-border);
+            padding: 0.1rem 0.4rem;
+            border-radius: 0.4rem;
+            margin-top: 0.2rem;
+        }
+
+        /* Kết quả quét */
+        .result-box {
+            margin-top: 0.8rem;
+            padding: 0.6rem;
+            border: 2px solid var(--border-color);
             background-color: #f8fafc;
             border-radius: 0.8rem;
             word-wrap: break-word;
@@ -233,34 +366,31 @@
             font-family: monospace;
             background-color: #ffffff;
             color: var(--text-main);
-            padding: 0.5rem 0.5rem;
+            padding: 0.6rem;
             border-radius: 0.5rem;
             border: 2px solid var(--success-border);
-            /* Viền phần tử dày 2px */
-            margin-top: 0.3rem;
+            margin-top: 0.4rem;
             user-select: all;
             white-space: pre-wrap;
             word-break: break-all;
         }
 
-        /* Nút copy kết quả */
         #copy-button {
             margin-top: 1rem;
             width: 100%;
         }
 
-        /* Khu vực lỗi - viền dày 2px */
         #error-message {
             color: var(--error-color);
             background-color: var(--error-bg);
             border: 2px solid var(--error-border);
-            /* Viền phần tử dày 2px */
-            padding: 0.5rem 0.5rem;
+            padding: 0.6rem;
             border-radius: 0.6rem;
             font-size: 1rem;
             margin-top: 1rem;
             display: none;
             align-items: center;
+            justify-content: center;
             gap: 0.5rem;
         }
 
@@ -268,12 +398,98 @@
             display: flex;
         }
 
-        /* Loading indicator - viền dày 2px */
+        /* Các phần tử tạo mã QR */
+        .qr-input-textarea {
+            width: 100%;
+            min-height: 6rem;
+            padding: 0.8rem;
+            font-family: inherit;
+            font-size: 1.1rem;
+            font-weight: normal;
+            color: var(--text-main);
+            background-color: #ffffff;
+            border: 2px solid var(--border-color);
+            border-radius: 0.8rem;
+            resize: vertical;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .qr-input-textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+        }
+
+        .qr-options-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 0.8rem;
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+
+        .qr-select-control {
+            width: 100%;
+            padding: 0.5rem 0.8rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border: 2px solid var(--border-color);
+            border-radius: 0.6rem;
+            background-color: #ffffff;
+            color: var(--text-main);
+            outline: none;
+            cursor: pointer;
+        }
+
+        .qr-select-control:focus {
+            border-color: var(--primary-color);
+        }
+
+        .qr-output-card {
+            background-color: #f8fafc;
+            border: 2px solid var(--border-color);
+            border-radius: 0.8rem;
+            padding: 1.2rem;
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 14rem;
+        }
+
+        .qr-svg-wrapper {
+            background-color: #ffffff;
+            padding: 0;
+            border: 2px solid var(--border-color);
+            border-radius: 0.8rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 100%;
+            overflow: hidden;
+        }
+
+        .qr-svg-wrapper svg {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .action-buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+            gap: 0.8rem;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
         .spinner {
-            border: 2px solid rgba(79, 70, 229, 0.1);
-            /* Viền phần tử dày 2px */
-            width: 2rem;
-            height: 2rem;
+            border: 3px solid rgba(79, 70, 229, 0.1);
+            width: 2.2rem;
+            height: 2.2rem;
             border-radius: 50%;
             border-left-color: var(--primary-color);
             animation: spin 0.8s linear infinite;
@@ -281,132 +497,285 @@
         }
 
         @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        /* Layout trên thiết bị di động */
         @media (max-width: 600px) {
-            body {
-                padding: 0.5rem 0.5rem 5rem 0.5rem;
-            }
-
             .content {
-                padding: 0.5rem;
+                padding: 0.6rem;
             }
 
-            .btn-group {
+            .btn-group, .action-buttons-grid, .qr-options-row {
                 grid-template-columns: 1fr;
-                gap: 0.5rem;
+                gap: 0.8rem;
+            }
+
+            .preprocess-grid {
+                grid-template-columns: 1fr 1fr;
             }
         }
     </style>
-    <!-- Thư viện jsQR - Tải trực tuyến từ CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.min.js"></script>
-    <!-- Tự động chuyển sang file cục bộ trong thư mục 'js' nếu tải CDN thất bại -->
+    <!-- Thư viện QRCode Generator chuẩn tạo ma trận mã QR chính xác mức sửa lỗi & lề -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+    <!-- Thư viện ZXing-JS nhận diện mã QR khi quét -->
+    <script src="https://unpkg.com/@zxing/library@0.21.3/umd/index.min.js"></script>
     <script>
-        if (typeof jsQR === 'undefined') {
-            document.write('<script src="js/jsQR.min.js"><\/script>');
+        if (typeof ZXing === 'undefined') {
+            document.write('<script src="js/zxing.min.js"><\/script>');
         }
     </script>
 </head>
 
 <body>
     <div class="content">
-        <div align="center">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width=5rem height=5rem>
-                <path d="M4,22H22V4H4ZM8,8H18V18H8Z" />
-                <path d="M4,44H22V26H4ZM8,30H18V40H8Z" />
-                <path d="M26,4V22H44V4ZM40,18H30V8H40Z" />
-                <rect x="11" y="11" width="4" height="4" />
-                <polygon points="30 33 26 33 26 44 44 44 44 40 30 40 30 33" />
-                <polygon points="40 33 33 33 33 37 44 37 44 26 40 26 40 33" />
-                <rect x="26" y="26" width="11" height="4" />
+        <div style="text-align: center;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="5rem" height="5rem">
+                <path fill="var(--primary-color)" d="M4,22H22V4H4ZM8,8H18V18H8Z" />
+                <path fill="var(--primary-color)" d="M4,44H22V26H4ZM8,30H18V40H8Z" />
+                <path fill="var(--primary-color)" d="M26,4V22H44V4ZM40,18H30V8H40Z" />
+                <rect fill="var(--primary-color)" x="11" y="11" width="4" height="4" />
+                <polygon fill="var(--primary-color)" points="30 33 26 33 26 44 44 44 44 40 30 40 30 33" />
+                <polygon fill="var(--primary-color)" points="40 33 33 33 33 37 44 37 44 26 40 26 40 33" />
+                <rect fill="var(--primary-color)" x="26" y="26" width="11" height="4" />
             </svg>
         </div>
-        <h1>Quét Mã QR: Dán, Chọn, Kéo&nbsp;Thả</h1>
+        <h1>Quét Và Tạo Mã QR</h1>
         <div class="author-name">D.T.Chánh</div>
 
-        <p>Chọn một trong các phương thức sau để tải ảnh mã QR lên và quét:</p>
-
-        <!-- Nhóm các nút tương tác chính -->
-        <div class="btn-group">
-            <!-- Nút dán ảnh từ Clipboard -->
-            <button id="paste-button" class="btn">
-                <svg width="1.1rem" height="1.1rem" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    style="vertical-align: middle; margin-right: 0.3rem;">
-                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
-                </svg> Dán ảnh QR (Ctrl+V)
+        <!-- Chuyển đổi giữa chế độ Quét mã và Tạo mã -->
+        <div class="tab-group">
+            <button id="tab-scan" class="tab-btn active">
+                <svg width="1.1rem" height="1.1rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 7V5a2 2 0 0 1 2-2h2"></path>
+                    <path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
+                    <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
+                    <path d="M7 21H5a2 2 0 0 1-2-2v-2"></path>
+                    <rect x="7" y="7" width="10" height="10" rx="1"></rect>
+                </svg> Quét
             </button>
-
-            <!-- Nút chọn file ảnh -->
-            <input type="file" id="file-input" accept="image/*">
-            <button id="select-file-button" class="btn" onclick="document.getElementById('file-input').click();">
-                <svg width="1.1rem" height="1.1rem" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    style="vertical-align: middle; margin-right: 0.3rem;">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                    <polyline points="17 8 12 3 7 8"></polyline>
-                    <line x1="12" y1="3" x2="12" y2="15"></line>
-                </svg> Chọn ảnh từ File
+            <button id="tab-generate" class="tab-btn">
+                <svg width="1.1rem" height="1.1rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg> Tạo
             </button>
         </div>
 
-        <div id="error-message"></div>
+        <!-- ===== TAB 1: QUÉT MÃ QR ===== -->
+        <div id="scan-section" class="tab-content active">
+            <p>Tải ảnh mã QR từ clipboard, tệp hoặc kéo thả để tự động nhận diện nội dung:</p>
 
-        <h2><svg width="1.4rem" height="1.4rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 0.5rem;">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                <polyline points="21 15 16 10 5 21"></polyline>
-            </svg> Ảnh đã tải</h2>
+            <!-- Khối Tuỳ chọn Tiền xử lý Ảnh -->
+            <div class="option-box">
+                <label class="toggle-label">
+                    <input type="checkbox" id="preprocess-toggle" class="toggle-checkbox" checked>
+                    <span>Bật tuỳ chọn tiền xử lý ảnh nâng cao</span>
+                </label>
+                <p class="option-desc">Khi bật, phần mềm sẽ áp dụng bộ lọc tương phản, nhị phân Otsu và đảo màu để tối ưu mã QR mờ, tối hoặc ngược màu. Khi tắt, phần mềm sẽ quét trực tiếp trên ảnh gốc.</p>
+            </div>
 
-        <!-- Khu vực hiển thị ảnh đã dán/chọn -->
-        <div id="image-preview">
-            <p>Kéo và thả ảnh mã QR vào đây hoặc sử dụng các nút phía trên.</p>
+            <!-- Nhóm các nút tương tác quét -->
+            <div class="btn-group">
+                <button id="paste-button" class="btn">
+                    <svg width="1.1rem" height="1.1rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                    </svg> Dán ảnh QR (Ctrl+V)
+                </button>
+
+                <input type="file" id="file-input" accept="image/*">
+                <button id="select-file-button" class="btn btn-secondary">
+                    <svg width="1.1rem" height="1.1rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg> Chọn ảnh từ File
+                </button>
+            </div>
+
+            <div id="error-message"></div>
+
+            <h2><svg width="1.4rem" height="1.4rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                </svg> Ảnh đã tải</h2>
+
+            <div id="image-preview">
+                <p>Kéo và thả ảnh mã QR vào đây hoặc sử dụng các nút phía trên.</p>
+            </div>
+
+            <!-- Khối hiển thị ảnh tiền xử lý -->
+            <h2><svg width="1.4rem" height="1.4rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                    <polyline points="2 17 12 22 22 17"></polyline>
+                    <polyline points="2 12 12 17 22 12"></polyline>
+                </svg> Kết quả hình ảnh tiền xử lý</h2>
+
+            <div id="preprocess-container">
+                <p style="color: #64748b; font-size: 0.95rem;">Chưa có dữ liệu xử lý. Hãy tải ảnh mã QR lên để xem các bước lọc.</p>
+            </div>
+
+            <h2><svg width="1.4rem" height="1.4rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg> Nội dung mã QR</h2>
+
+            <div id="result-box" class="result-box">
+                <p>Nội dung mã QR sẽ hiển thị ở đây.</p>
+            </div>
+
+            <button id="copy-button" class="btn" disabled>
+                <svg id="copy-icon" width="1.1rem" height="1.1rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg> Chép vào Clipboard
+            </button>
         </div>
 
-        <h2 id="result-heading"><svg width="1.4rem" height="1.4rem" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                style="vertical-align: middle; margin-right: 0.5rem;">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg> Nội dung mã QR</h2>
+        <!-- ===== TAB 2: TẠO MÃ QR ===== -->
+        <div id="generate-section" class="tab-content">
+            <p>Nhập văn bản, số điện thoại hoặc liên kết (URL) để tạo mã QR:</p>
 
-        <div id="result-box" class="result-box">
-            <p>Nội dung mã QR sẽ hiển thị ở đây.</p>
+            <textarea id="qr-input-text" class="qr-input-textarea" placeholder="Nhập văn bản hoặc đường dẫn liên kết ở đây..."></textarea>
+
+            <div class="qr-options-row">
+                <div>
+                    <label for="qr-size-select" style="font-weight: bold; display: block; margin-bottom: 0.3rem;">Kích thước hiển thị:</label>
+                    <select id="qr-size-select" class="qr-select-control">
+                        <option value="250">Vừa (250 x 250 px)</option>
+                        <option value="350" selected>Lớn (350 x 350 px)</option>
+                        <option value="500">Rất lớn (500 x 500 px)</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="qr-error-select" style="font-weight: bold; display: block; margin-bottom: 0.3rem;">Mức sửa lỗi (Khôi phục):</label>
+                    <select id="qr-error-select" class="qr-select-control">
+                        <option value="L">L - Thấp (~7% khôi phục)</option>
+                        <option value="M" selected>M - Trung bình (~15% khôi phục)</option>
+                        <option value="Q">Q - Cao (~25% khôi phục)</option>
+                        <option value="H">H - Rất cao (~30% khôi phục)</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="qr-margin-select" style="font-weight: bold; display: block; margin-bottom: 0.3rem;">Lề (Quiet Zone):</label>
+                    <select id="qr-margin-select" class="qr-select-control">
+                        <option value="0">0 cell (Không lề)</option>
+                        <option value="1">1 cell (Hẹp)</option>
+                        <option value="2">2 cell</option>
+                        <option value="3">3 cell</option>
+                        <option value="4" selected>4 cell (Mặc định)</option>
+                        <option value="5">5 cell (Rộng)</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="qr-style-select" style="font-weight: bold; display: block; margin-bottom: 0.3rem;">Kiểu dáng ô (Style):</label>
+                    <select id="qr-style-select" class="qr-select-control">
+                        <option value="square" selected>Ô vuông chuẩn</option>
+                        <option value="rounded">Ô bo góc (Rounded)</option>
+                        <option value="dots">Chấm tròn (Dots)</option>
+                    </select>
+                </div>
+            </div>
+
+            <button id="generate-qr-button" class="btn" style="width: 100%;">
+                <svg width="1.1rem" height="1.1rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                </svg> Tạo Mã QR ngay
+            </button>
+
+            <div id="generate-error-message" style="display: none; color: var(--error-color); background-color: var(--error-bg); border: 2px solid var(--error-border); padding: 0.6rem; border-radius: 0.6rem; margin-top: 1rem;"></div>
+
+            <h2><svg width="1.4rem" height="1.4rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                </svg> Mã QR được tạo</h2>
+
+            <div class="qr-output-card">
+                <div id="qr-svg-wrapper" class="qr-svg-wrapper">
+                    <p style="color: #94a3b8; margin: 0;">Mã QR sau khi tạo sẽ hiển thị ở đây.</p>
+                </div>
+
+                <div id="qr-info-badge" style="display: none; margin-top: 0.8rem; font-size: 0.9rem; font-weight: bold; color: var(--primary-color); background: #e0e7ff; padding: 0.4rem 0.8rem; border-radius: 0.6rem; border: 2px solid #c7d2fe; width: 100%; text-align: center;"></div>
+
+                <div class="action-buttons-grid">
+                    <button id="copy-qr-button" class="btn" disabled>
+                        <svg width="1.1rem" height="1.1rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg> Sao chép ảnh QR
+                    </button>
+
+                    <button id="download-svg-button" class="btn btn-success" disabled>
+                        <svg width="1.1rem" height="1.1rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg> Tải file SVG (Sắc nét)
+                    </button>
+
+                    <button id="download-png-button" class="btn btn-secondary" disabled>
+                        <svg width="1.1rem" height="1.1rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                            <polyline points="21 15 16 10 5 21"></polyline>
+                        </svg> Tải file ảnh PNG
+                    </button>
+                </div>
+            </div>
         </div>
-
-        <!-- Nút sao chép kết quả quét vào clipboard - hiển thị sẵn nhưng mặc định disabled -->
-        <button id="copy-button" class="btn" disabled>
-            <svg id="copy-icon" width="1.1rem" height="1.1rem" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                style="vertical-align: middle; margin-right: 0.3rem;">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-            </svg> Chép vào Clipboard
-        </button>
-        <div style="padding-bottom: 1.5rem;"></div>
     </div>
 
     <script>
-        // Khởi tạo các biến DOM
+        // --- CHUYỂN ĐỔI TAB QUÉT / TẠO ---
+        const tabScan = document.getElementById('tab-scan');
+        const tabGenerate = document.getElementById('tab-generate');
+        const scanSection = document.getElementById('scan-section');
+        const generateSection = document.getElementById('generate-section');
+
+        tabScan.addEventListener('click', () => {
+            tabScan.classList.add('active');
+            tabGenerate.classList.remove('active');
+            scanSection.classList.add('active');
+            generateSection.classList.remove('active');
+        });
+
+        tabGenerate.addEventListener('click', () => {
+            tabGenerate.classList.add('active');
+            tabScan.classList.remove('active');
+            generateSection.classList.add('active');
+            scanSection.classList.remove('active');
+        });
+
+        // ==========================================
+        // 1. CHỨC NĂNG QUÉT MÃ QR
+        // ==========================================
+        const preprocessToggle = document.getElementById('preprocess-toggle');
         const pasteButton = document.getElementById('paste-button');
         const selectFileButton = document.getElementById('select-file-button');
         const fileInput = document.getElementById('file-input');
         const imagePreview = document.getElementById('image-preview');
+        const preprocessContainer = document.getElementById('preprocess-container');
         const resultBox = document.getElementById('result-box');
         const errorMessage = document.getElementById('error-message');
         const copyButton = document.getElementById('copy-button');
 
-        // --- Chức năng Quét Mã QR ---
+        let zxingReader = null;
+        function getZXingReader() {
+            if (!zxingReader && typeof ZXing !== 'undefined' && ZXing.BrowserQRCodeReader) {
+                try {
+                    zxingReader = new ZXing.BrowserQRCodeReader();
+                } catch (e) {
+                    console.warn("Không thể khởi tạo ZXing BrowserQRCodeReader:", e);
+                }
+            }
+            return zxingReader;
+        }
 
         function clearResults(message = 'Đang chờ ảnh...') {
             errorMessage.textContent = '';
@@ -415,90 +784,295 @@
             resultBox.classList.remove('success');
             imagePreview.innerHTML = '<p>Kéo và thả ảnh mã QR vào đây hoặc sử dụng các nút phía trên.</p>';
             imagePreview.classList.remove('has-image');
-            copyButton.disabled = true; // Vô hiệu hoá nút sao chép khi xoá kết quả
+            
+            if (preprocessToggle.checked) {
+                preprocessContainer.innerHTML = '<p style="color: #64748b; font-size: 0.95rem;">Chưa có dữ liệu xử lý. Hãy tải ảnh mã QR lên để xem các bước lọc.</p>';
+            } else {
+                preprocessContainer.innerHTML = '<p style="color: #64748b; font-size: 0.95rem;">Tuỳ chọn tiền xử lý ảnh đang <strong>TẮT</strong>.</p>';
+            }
+
+            copyButton.disabled = true;
             copyButton.removeAttribute('data-clipboard-text');
         }
 
         function displayError(message) {
-            clearResults('');
-            errorMessage.innerHTML = `<svg width="1.1rem" height="1.1rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 0.3rem;"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> ${message}`;
+            errorMessage.innerHTML = `<svg width="1.1rem" height="1.1rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> ${message}`;
             errorMessage.classList.add('show');
+            resultBox.innerHTML = `<p style="color: var(--error-color);">Quét không thành công.</p>`;
+            resultBox.classList.remove('success');
+            copyButton.disabled = true;
+        }
+
+        function displaySuccess(textData) {
+            errorMessage.textContent = '';
+            errorMessage.classList.remove('show');
+            resultBox.classList.add('success');
+            resultBox.innerHTML = `
+                <h3 style="margin-bottom: 0.3rem;">✅ Quét Thành Công!</h3>
+                <p style="margin-bottom: 0.2rem; margin-top: 0.2rem;"><strong>Nội dung:</strong></p>
+                <div id="qr-result-content"></div>
+            `;
+            document.getElementById('qr-result-content').textContent = textData;
+
+            copyButton.disabled = false;
+            copyButton.setAttribute('data-clipboard-text', textData);
         }
 
         function showLoading() {
             errorMessage.textContent = '';
             errorMessage.classList.remove('show');
             resultBox.classList.remove('success');
-            resultBox.innerHTML = `<div class="spinner"></div><p style="text-align:center; color: var(--primary-color); margin: 0.3rem 0 0 0; font-size: 0.9rem;">Đang quét mã QR...</p>`;
+            resultBox.innerHTML = `<div class="spinner"></div><p style="text-align:center; color: var(--primary-color); margin: 0.3rem 0 0 0; font-size: 0.95rem;">Đang phân tích hình ảnh và quét mã QR...</p>`;
             copyButton.disabled = true;
         }
 
-        // Hàm chung để hiển thị ảnh và gọi hàm quét
-        function handleImageBlob(blob) {
-            if (!blob || !blob.type.startsWith('image/')) {
-                displayError("Lỗi: Không phải định dạng ảnh hợp lệ.");
+        // Bộ lọc tiền xử lý ảnh
+        function applyGrayscaleContrast(imageData, contrastFactor = 1.8) {
+            const data = imageData.data;
+            const len = data.length;
+            const factor = (259 * (contrastFactor * 255 + 255)) / (255 * (259 - contrastFactor * 255));
+
+            for (let i = 0; i < len; i += 4) {
+                let gray = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+                gray = factor * (gray - 128) + 128;
+                if (gray < 0) gray = 0;
+                if (gray > 255) gray = 255;
+
+                data[i] = gray;
+                data[i + 1] = gray;
+                data[i + 2] = gray;
+            }
+            return imageData;
+        }
+
+        function applyOtsuBinarization(imageData) {
+            const data = imageData.data;
+            const len = data.length;
+            const histogram = new Array(256).fill(0);
+            const totalPixels = len / 4;
+
+            for (let i = 0; i < len; i += 4) {
+                const gray = Math.round(0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2]);
+                histogram[gray]++;
+            }
+
+            let sum = 0;
+            for (let i = 0; i < 256; i++) sum += i * histogram[i];
+
+            let sumB = 0, wB = 0, wF = 0, maxVar = 0, threshold = 128;
+
+            for (let i = 0; i < 256; i++) {
+                wB += histogram[i];
+                if (wB === 0) continue;
+                wF = totalPixels - wB;
+                if (wF === 0) break;
+
+                sumB += i * histogram[i];
+                const mB = sumB / wB;
+                const mF = (sum - sumB) / wF;
+                const varBetween = wB * wF * (mB - mF) * (mB - mF);
+
+                if (varBetween > maxVar) {
+                    maxVar = varBetween;
+                    threshold = i;
+                }
+            }
+
+            for (let i = 0; i < len; i += 4) {
+                const gray = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+                const val = gray >= threshold ? 255 : 0;
+                data[i] = val;
+                data[i + 1] = val;
+                data[i + 2] = val;
+            }
+            return imageData;
+        }
+
+        function applyInversion(imageData) {
+            const data = imageData.data;
+            const len = data.length;
+            for (let i = 0; i < len; i += 4) {
+                data[i] = 255 - data[i];
+                data[i + 1] = 255 - data[i + 1];
+                data[i + 2] = 255 - data[i + 2];
+            }
+            return imageData;
+        }
+
+        async function tryDecodeCanvas(canvas) {
+            if (typeof ZXing !== 'undefined' && ZXing.BrowserQRCodeReader) {
+                try {
+                    const reader = getZXingReader();
+                    if (reader) {
+                        const res = await reader.decodeFromCanvas(canvas);
+                        if (res && res.getText() && res.getText().trim()) {
+                            return res.getText();
+                        }
+                    }
+                } catch (e) { }
+            }
+
+            if (typeof ZXing !== 'undefined' && ZXing.HTMLCanvasElementLuminanceSource && ZXing.HybridBinarizer && ZXing.QRCodeReader) {
+                try {
+                    const source = new ZXing.HTMLCanvasElementLuminanceSource(canvas);
+                    const bitmap = new ZXing.BinaryBitmap(new ZXing.HybridBinarizer(source));
+                    const qrReader = new ZXing.QRCodeReader();
+                    const res = qrReader.decode(bitmap);
+                    if (res && res.getText() && res.getText().trim()) {
+                        return res.getText();
+                    }
+                } catch (e) { }
+            }
+
+            if (typeof ZXing !== 'undefined' && ZXing.HTMLCanvasElementLuminanceSource && ZXing.GlobalHistogramBinarizer && ZXing.QRCodeReader) {
+                try {
+                    const source = new ZXing.HTMLCanvasElementLuminanceSource(canvas);
+                    const bitmap = new ZXing.BinaryBitmap(new ZXing.GlobalHistogramBinarizer(source));
+                    const qrReader = new ZXing.QRCodeReader();
+                    const res = qrReader.decode(bitmap);
+                    if (res && res.getText() && res.getText().trim()) {
+                        return res.getText();
+                    }
+                } catch (e) { }
+            }
+
+            return null;
+        }
+
+        async function processAndScanQR(img) {
+            let width = img.naturalWidth || img.width;
+            let height = img.naturalHeight || img.height;
+
+            if (!width || !height) {
+                displayError("Lỗi: Không đọc được kích thước hình ảnh.");
                 return;
             }
 
-            // 1. Hiển thị ảnh
-            showLoading(); // Hiển thị loading trước
+            if (width > 1200 || height > 1200) {
+                const scale = Math.min(1200 / width, 1200 / height);
+                width = Math.round(width * scale);
+                height = Math.round(height * scale);
+            }
+
+            const isPreprocessEnabled = preprocessToggle.checked;
+            const steps = [];
+
+            const canvasOrig = document.createElement('canvas');
+            canvasOrig.width = width;
+            canvasOrig.height = height;
+            const ctxOrig = canvasOrig.getContext('2d', { willReadFrequently: true });
+            ctxOrig.drawImage(img, 0, 0, width, height);
+
+            steps.push({ name: '1. Ảnh gốc', canvas: canvasOrig });
+
+            if (isPreprocessEnabled) {
+                const canvasContrast = document.createElement('canvas');
+                canvasContrast.width = width;
+                canvasContrast.height = height;
+                const ctxContrast = canvasContrast.getContext('2d', { willReadFrequently: true });
+                ctxContrast.drawImage(img, 0, 0, width, height);
+                const imgDataContrast = ctxContrast.getImageData(0, 0, width, height);
+                applyGrayscaleContrast(imgDataContrast, 1.8);
+                ctxContrast.putImageData(imgDataContrast, 0, 0);
+                steps.push({ name: '2. Tăng tương phản', canvas: canvasContrast });
+
+                const canvasOtsu = document.createElement('canvas');
+                canvasOtsu.width = width;
+                canvasOtsu.height = height;
+                const ctxOtsu = canvasOtsu.getContext('2d', { willReadFrequently: true });
+                ctxOtsu.drawImage(img, 0, 0, width, height);
+                const imgDataOtsu = ctxOtsu.getImageData(0, 0, width, height);
+                applyOtsuBinarization(imgDataOtsu);
+                ctxOtsu.putImageData(imgDataOtsu, 0, 0);
+                steps.push({ name: '3. Nhị phân Otsu', canvas: canvasOtsu });
+
+                const canvasInverted = document.createElement('canvas');
+                canvasInverted.width = width;
+                canvasInverted.height = height;
+                const ctxInverted = canvasInverted.getContext('2d', { willReadFrequently: true });
+                ctxInverted.drawImage(img, 0, 0, width, height);
+                const imgDataInverted = ctxInverted.getImageData(0, 0, width, height);
+                applyInversion(imgDataInverted);
+                ctxInverted.putImageData(imgDataInverted, 0, 0);
+                steps.push({ name: '4. Đảo ngược màu', canvas: canvasInverted });
+            }
+
+            let foundText = null;
+            let matchedStepIndex = -1;
+
+            for (let i = 0; i < steps.length; i++) {
+                const text = await tryDecodeCanvas(steps[i].canvas);
+                if (text) {
+                    foundText = text;
+                    matchedStepIndex = i;
+                    break;
+                }
+            }
+
+            if (isPreprocessEnabled) {
+                let gridHtml = '<div class="preprocess-grid">';
+                steps.forEach((step, idx) => {
+                    const isMatched = (idx === matchedStepIndex);
+                    const dataUrl = step.canvas.toDataURL('image/png');
+                    gridHtml += `
+                        <div class="preprocess-card ${isMatched ? 'active-match' : ''}">
+                            <img src="${dataUrl}" alt="${step.name}">
+                            <div class="card-label">${step.name}</div>
+                            ${isMatched ? '<div class="card-badge">✅ Đã nhận diện</div>' : ''}
+                        </div>
+                    `;
+                });
+                gridHtml += '</div>';
+                preprocessContainer.innerHTML = gridHtml;
+            } else {
+                preprocessContainer.innerHTML = '<p style="color: #64748b; font-size: 0.95rem;">Tuỳ chọn tiền xử lý ảnh đang <strong>TẮT</strong> (chỉ sử dụng ảnh gốc).</p>';
+            }
+
+            if (foundText) {
+                displaySuccess(foundText);
+            } else {
+                displayError("❌ Không tìm thấy mã QR trong ảnh này. Vui lòng thử hình ảnh rõ nét hơn hoặc bật Tuỳ chọn tiền xử lý ảnh.");
+            }
+        }
+
+        function handleImageBlob(blob) {
+            if (!blob || !blob.type.startsWith('image/')) {
+                displayError("Lỗi: Tệp tải lên không phải là định dạng hình ảnh hợp lệ.");
+                return;
+            }
+
+            showLoading();
             const url = URL.createObjectURL(blob);
             imagePreview.innerHTML = `<img id="preview-img" src="${url}" alt="Ảnh mã QR">`;
             imagePreview.classList.add('has-image');
 
-            // 2. Quét mã QR sau khi ảnh tải xong
             const img = document.getElementById('preview-img');
             img.onload = () => {
-                scanQR(img);
-                URL.revokeObjectURL(url); // Giải phóng bộ nhớ sau khi ảnh đã được vẽ lên canvas
+                setTimeout(() => {
+                    processAndScanQR(img);
+                    URL.revokeObjectURL(url);
+                }, 50);
             };
             img.onerror = () => {
-                displayError("Không thể tải ảnh đã dán/chọn.");
+                displayError("Không thể tải hình ảnh đã dán hoặc chọn.");
                 URL.revokeObjectURL(url);
             };
         }
 
-        // Hàm quét mã QR bằng thư viện jsQR
-        function scanQR(img) {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-
-            // Thiết lập kích thước canvas bằng kích thước ảnh gốc để có chất lượng tốt nhất
-            canvas.width = img.naturalWidth;
-            canvas.height = img.naturalHeight;
-
-            try {
-                // Vẽ ảnh lên canvas
-                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-                // Lấy dữ liệu pixel
-                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-                // Sử dụng jsQR để quét
-                const code = jsQR(imageData.data, imageData.width, imageData.height);
-
-                if (code) {
-                    resultBox.classList.add('success');
-                    resultBox.innerHTML = `
-                        <h3 style="margin-bottom: 0.3rem;">✅ Quét Thành Công!</h3>
-                        <p style="margin-bottom: 0.2rem; margin-top: 0.2rem;"><strong>Nội dung:</strong></p>
-                        <div id="qr-result-content"></div>
-                    `;
-                    document.getElementById('qr-result-content').textContent = code.data;
-
-                    // Kích hoạt nút copy và lưu dữ liệu cần copy
-                    copyButton.disabled = false;
-                    copyButton.setAttribute('data-clipboard-text', code.data);
+        preprocessToggle.addEventListener('change', () => {
+            const img = document.getElementById('preview-img');
+            if (img && img.complete && img.naturalWidth > 0) {
+                showLoading();
+                setTimeout(() => processAndScanQR(img), 50);
+            } else {
+                if (preprocessToggle.checked) {
+                    preprocessContainer.innerHTML = '<p style="color: #64748b; font-size: 0.95rem;">Chưa có dữ liệu xử lý. Hãy tải ảnh mã QR lên để xem các bước lọc.</p>';
                 } else {
-                    displayError("❌ Không tìm thấy mã QR trong ảnh này. Vui lòng thử ảnh rõ nét hơn.");
+                    preprocessContainer.innerHTML = '<p style="color: #64748b; font-size: 0.95rem;">Tuỳ chọn tiền xử lý ảnh đang <strong>TẮT</strong>.</p>';
                 }
-            } catch (e) {
-                displayError("Lỗi trong quá trình xử lý ảnh (có thể do ảnh quá lớn hoặc lỗi Canvas).");
-                console.error("Scanning error:", e);
             }
-        }
+        });
 
-        // --- Xử lý sự kiện sao chép kết quả ---
         copyButton.addEventListener('click', async () => {
             const textToCopy = copyButton.getAttribute('data-clipboard-text');
             if (!textToCopy) return;
@@ -506,17 +1080,14 @@
             try {
                 await navigator.clipboard.writeText(textToCopy);
                 const originalContent = copyButton.innerHTML;
-                copyButton.innerHTML = `<svg width="1.1rem" height="1.1rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 0.3rem;"><polyline points="20 6 9 17 4 12"></polyline></svg> Đã chép!`;
+                copyButton.innerHTML = `<svg width="1.1rem" height="1.1rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Đã chép!`;
                 copyButton.style.backgroundColor = 'var(--success-color)';
-                copyButton.style.boxShadow = '0 10px 15px -3px rgba(5, 150, 105, 0.2)';
 
                 setTimeout(() => {
                     copyButton.innerHTML = originalContent;
                     copyButton.style.backgroundColor = '';
-                    copyButton.style.boxShadow = '';
                 }, 2000);
             } catch (err) {
-                // Trong trường hợp Clipboard API bị lỗi, thử dùng phương án fallback
                 try {
                     const tempTextArea = document.createElement('textarea');
                     tempTextArea.value = textToCopy;
@@ -526,7 +1097,7 @@
                     document.body.removeChild(tempTextArea);
 
                     const originalContent = copyButton.innerHTML;
-                    copyButton.innerHTML = `<svg width="1.1rem" height="1.1rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 0.3rem;"><polyline points="20 6 9 17 4 12"></polyline></svg> Đã chép!`;
+                    copyButton.innerHTML = `<svg width="1.1rem" height="1.1rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Đã chép!`;
                     copyButton.style.backgroundColor = 'var(--success-color)';
                     setTimeout(() => {
                         copyButton.innerHTML = originalContent;
@@ -534,19 +1105,12 @@
                     }, 2000);
                 } catch (fallbackErr) {
                     displayError("Lỗi sao chép tự động: Vui lòng tự bôi đen kết quả để sao chép.");
-                    console.error("Clipboard copy failed:", err, fallbackErr);
                 }
             }
         });
 
-        // --- Xử lý sự kiện Clipboard (Dán) ---
-
-        // Xử lý sự kiện khi người dùng nhấn Ctrl+V/Cmd+V
-        document.addEventListener('paste', handlePaste);
-
-        function handlePaste(event) {
-            const items = event.clipboardData.items;
-
+        document.addEventListener('paste', (event) => {
+            const items = event.clipboardData ? event.clipboardData.items : [];
             for (let i = 0; i < items.length; i++) {
                 if (items[i].type.indexOf('image') !== -1) {
                     const blob = items[i].getAsFile();
@@ -554,17 +1118,15 @@
                     break;
                 }
             }
-        }
+        });
 
-        // Hàm đọc ảnh từ Clipboard API (dùng khi click nút)
         pasteButton.addEventListener('click', async () => {
             try {
                 if (!navigator.clipboard || typeof navigator.clipboard.read !== 'function') {
-                    displayError("Trình duyệt của bạn không hỗ trợ Clipboard API nâng cao. Vui lòng nhấn **Ctrl+V (hoặc Cmd+V)**.");
+                    displayError("Trình duyệt hạn chế tự động đọc Clipboard. Vui lòng sử dụng phím tắt **Ctrl+V (hoặc Cmd+V)**.");
                     return;
                 }
 
-                // Yêu cầu đọc dữ liệu từ clipboard
                 const items = await navigator.clipboard.read();
                 let imageFound = false;
 
@@ -578,66 +1140,437 @@
                 }
 
                 if (!imageFound) {
-                    displayError("Không tìm thấy dữ liệu ảnh trong clipboard. Vui lòng đảm bảo bạn đã sao chép một ảnh.");
+                    displayError("Không tìm thấy dữ liệu ảnh trong bộ nhớ tạm (Clipboard). Vui lòng sao chép một bức ảnh trước.");
                 }
-
             } catch (err) {
-                // Lỗi thường do chưa cấp quyền hoặc trình duyệt không cho phép đọc tự động
-                displayError("Lỗi truy cập clipboard: Cần quyền đọc. Vui lòng nhấn **Ctrl+V (hoặc Cmd+V)** sau khi click nút này.");
-                console.error("Clipboard Read Error:", err);
+                displayError("Cần cấp quyền truy cập Clipboard. Bạn cũng có thể nhấn trực tiếp phím **Ctrl+V (hoặc Cmd+V)**.");
             }
         });
 
-        // --- Xử lý sự kiện Chọn File ---
+        selectFileButton.addEventListener('click', () => fileInput.click());
 
         fileInput.addEventListener('change', (event) => {
             const file = event.target.files[0];
             if (file) {
                 handleImageBlob(file);
             } else {
-                displayError("Vui lòng chọn một tệp ảnh.");
+                displayError("Vui lòng chọn một tệp hình ảnh.");
             }
-            // Đặt lại giá trị input để có thể chọn lại cùng một file
             fileInput.value = '';
         });
 
-        // --- Xử lý sự kiện kéo thả (Drag & Drop) ---
-
-        // Ngăn trình duyệt mở ảnh mặc định khi kéo thả
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             imagePreview.addEventListener(eventName, (e) => e.preventDefault(), false);
         });
 
-        // Thêm/Xoá class hiệu ứng khi kéo file qua vùng hiển thị
         ['dragenter', 'dragover'].forEach(eventName => {
-            imagePreview.addEventListener(eventName, () => {
-                imagePreview.classList.add('dragover');
-            }, false);
+            imagePreview.addEventListener(eventName, () => imagePreview.classList.add('dragover'), false);
         });
 
         ['dragleave', 'drop'].forEach(eventName => {
-            imagePreview.addEventListener(eventName, () => {
-                imagePreview.classList.remove('dragover');
-            }, false);
+            imagePreview.addEventListener(eventName, () => imagePreview.classList.remove('dragover'), false);
         });
 
-        // Xử lý khi thả file ảnh vào vùng hiển thị
         imagePreview.addEventListener('drop', (e) => {
-            const dt = e.dataTransfer;
-            const file = dt.files[0];
-
+            const file = e.dataTransfer.files[0];
             if (file) {
                 handleImageBlob(file);
             } else {
-                displayError("Vui lòng thả một tệp ảnh hợp lệ.");
+                displayError("Vui lòng thả tệp hình ảnh hợp lệ.");
+            }
+        });
+        // 2. CHỨC NĂNG TẠO MÃ QR
+        // ==========================================
+        const qrInputText = document.getElementById('qr-input-text');
+        const qrSizeSelect = document.getElementById('qr-size-select');
+        const qrErrorSelect = document.getElementById('qr-error-select');
+        const qrMarginSelect = document.getElementById('qr-margin-select');
+        const qrStyleSelect = document.getElementById('qr-style-select');
+        const generateQrButton = document.getElementById('generate-qr-button');
+        const generateErrorMessage = document.getElementById('generate-error-message');
+        const qrSvgWrapper = document.getElementById('qr-svg-wrapper');
+        const qrInfoBadge = document.getElementById('qr-info-badge');
+        const copyQrButton = document.getElementById('copy-qr-button');
+        const downloadSvgButton = document.getElementById('download-svg-button');
+        const downloadPngButton = document.getElementById('download-png-button');
+
+        let currentSvgElement = null;
+
+        function showGenerateError(msg) {
+            generateErrorMessage.textContent = msg;
+            generateErrorMessage.style.display = 'block';
+        }
+
+        function hideGenerateError() {
+            generateErrorMessage.textContent = '';
+            generateErrorMessage.style.display = 'none';
+        }
+
+        function updateQrInfoBadge(errorLevelVal, marginVal, styleVal, matrixCount = 0) {
+            if (!qrInfoBadge) return;
+            const ecMap = {
+                'L': 'L - Thấp (~7%)',
+                'M': 'M - Trung bình (~15%)',
+                'Q': 'Q - Cao (~25%)',
+                'H': 'H - Rất cao (~30%)'
+            };
+            const styleMap = {
+                'square': 'Ô vuông chuẩn',
+                'rounded': 'Ô bo góc',
+                'dots': 'Chấm tròn'
+            };
+            qrInfoBadge.style.display = 'block';
+            const matrixInfo = matrixCount > 0 ? ` | Ma trận: <strong>${matrixCount}×${matrixCount} ô</strong>` : '';
+            qrInfoBadge.innerHTML = `📊 Mức sửa lỗi: <strong>${ecMap[errorLevelVal] || errorLevelVal}</strong> | Lề: <strong>${marginVal} cell</strong> | Kiểu dáng: <strong>${styleMap[styleVal] || styleVal}</strong>${matrixInfo}`;
+        }
+
+        // Tạo ma trận mã QR chuẩn xác 100% bằng thư viện qrcode-generator
+        function generateQRCodeMatrix(text, errorLevelChar) {
+            const ec = (errorLevelChar || 'M').toUpperCase();
+            if (typeof qrcode !== 'undefined') {
+                try {
+                    const qr = qrcode(0, ec);
+                    qr.addData(text);
+                    qr.make();
+                    const count = qr.getModuleCount();
+                    const matrix = [];
+                    for (let r = 0; r < count; r++) {
+                        const row = [];
+                        for (let c = 0; c < count; c++) {
+                            row.push(qr.isDark(r, c));
+                        }
+                        matrix.push(row);
+                    }
+                    return { matrix, count };
+                } catch (e) {
+                    console.warn("Lỗi qrcode-generator:", e);
+                }
+            }
+
+            // Fallback sang ZXing QRCodeWriter nếu chưa tải được qrcode-generator
+            if (typeof ZXing !== 'undefined' && ZXing.QRCodeWriter) {
+                let ecLevel = null;
+                if (ZXing.ErrorCorrectionLevel) {
+                    if (ec === 'L') ecLevel = ZXing.ErrorCorrectionLevel.L;
+                    else if (ec === 'M') ecLevel = ZXing.ErrorCorrectionLevel.M;
+                    else if (ec === 'Q') ecLevel = ZXing.ErrorCorrectionLevel.Q;
+                    else if (ec === 'H') ecLevel = ZXing.ErrorCorrectionLevel.H;
+                }
+                const writer = new ZXing.QRCodeWriter();
+                const hints = new Map();
+                if (ZXing.EncodeHintType && ecLevel) {
+                    hints.set(ZXing.EncodeHintType.ERROR_CORRECTION, ecLevel);
+                }
+                const bitMatrix = writer.encode(text, ZXing.BarcodeFormat.QR_CODE, 0, 0, hints);
+                const count = bitMatrix.getWidth();
+                const matrix = [];
+                for (let y = 0; y < count; y++) {
+                    const row = [];
+                    for (let x = 0; x < count; x++) {
+                        row.push(bitMatrix.get(x, y));
+                    }
+                    matrix.push(row);
+                }
+                return { matrix, count };
+            }
+
+            throw new Error("Không thể khởi tạo bộ sinh mã QR.");
+        }
+
+        // Tạo phần tử SVG mã QR trực tiếp từ ma trận chuẩn
+        function createQRCodeSVG(text, targetSize, errorLevelChar, marginVal, styleVal) {
+            const { matrix, count } = generateQRCodeMatrix(text, errorLevelChar);
+
+            // Tính tổng số ô (cell) chiều ngang/dọc bao gồm cả lề marginVal
+            const totalCells = count + (2 * marginVal);
+            const cellSize = targetSize / totalCells;
+
+            const svgNS = "http://www.w3.org/2000/svg";
+            const svg = document.createElementNS(svgNS, "svg");
+            svg.setAttribute("xmlns", svgNS);
+            svg.setAttribute("viewBox", `0 0 ${targetSize} ${targetSize}`);
+            svg.setAttribute("width", targetSize);
+            svg.setAttribute("height", targetSize);
+            svg.style.display = "block";
+
+            // Phủ hình nền trắng toàn bộ hình ảnh QR
+            const bgRect = document.createElementNS(svgNS, "rect");
+            bgRect.setAttribute("x", "0");
+            bgRect.setAttribute("y", "0");
+            bgRect.setAttribute("width", targetSize);
+            bgRect.setAttribute("height", targetSize);
+            bgRect.setAttribute("fill", "#ffffff");
+            svg.appendChild(bgRect);
+
+            // Vẽ các ô đen (modules) của mã QR
+            for (let r = 0; r < count; r++) {
+                for (let c = 0; c < count; c++) {
+                    if (matrix[r][c]) {
+                        const x = (c + marginVal) * cellSize;
+                        const y = (r + marginVal) * cellSize;
+
+                        const rect = document.createElementNS(svgNS, "rect");
+                        rect.setAttribute("x", x.toFixed(2));
+                        rect.setAttribute("y", y.toFixed(2));
+                        // Cộng thêm 0.04px để tránh các vạch hở mờ khi hiển thị trên màn hình
+                        rect.setAttribute("width", (cellSize + 0.04).toFixed(2));
+                        rect.setAttribute("height", (cellSize + 0.04).toFixed(2));
+                        rect.setAttribute("fill", "#000000");
+
+                        if (styleVal === 'rounded') {
+                            rect.setAttribute("rx", (cellSize * 0.35).toFixed(2));
+                            rect.setAttribute("ry", (cellSize * 0.35).toFixed(2));
+                        } else if (styleVal === 'dots') {
+                            rect.setAttribute("rx", (cellSize * 0.5).toFixed(2));
+                            rect.setAttribute("ry", (cellSize * 0.5).toFixed(2));
+                        }
+
+                        svg.appendChild(rect);
+                    }
+                }
+            }
+
+            return { svg, count };
+        }
+
+        function generateQRCode() {
+            hideGenerateError();
+            const text = qrInputText.value ? qrInputText.value.trim() : '';
+            if (!text) {
+                showGenerateError("Vui lòng nhập nội dung hoặc liên kết để tạo mã QR.");
+                downloadSvgButton.disabled = true;
+                downloadPngButton.disabled = true;
+                copyQrButton.disabled = true;
+                qrSvgWrapper.innerHTML = '<p style="color: #94a3b8; margin: 0;">Mã QR sau khi tạo sẽ hiển thị ở đây.</p>';
+                qrSvgWrapper.style.padding = '1rem';
+                qrSvgWrapper.style.border = '2px solid var(--border-color)';
+                qrSvgWrapper.style.boxShadow = 'var(--shadow)';
+                if (qrInfoBadge) qrInfoBadge.style.display = 'none';
+                currentSvgElement = null;
+                return;
+            }
+
+            const size = parseInt(qrSizeSelect.value, 10) || 350;
+            const errorLevelVal = qrErrorSelect.value || 'M';
+            const marginVal = parseInt(qrMarginSelect.value, 10);
+            const styleVal = qrStyleSelect.value || 'square';
+
+            try {
+                const { svg: svgElement, count } = createQRCodeSVG(text, size, errorLevelVal, marginVal, styleVal);
+
+                if (svgElement) {
+                    qrSvgWrapper.innerHTML = '';
+                    qrSvgWrapper.appendChild(svgElement);
+                    currentSvgElement = svgElement;
+
+                    // Đặt padding = 0 để khoảng trắng lề (marginVal cell) do SVG vẽ hiển thị chính xác tuyệt đối
+                    qrSvgWrapper.style.padding = '0';
+                    qrSvgWrapper.style.border = '2px solid var(--border-color)';
+                    qrSvgWrapper.style.borderRadius = '0.6rem';
+                    qrSvgWrapper.style.overflow = 'hidden';
+                    qrSvgWrapper.style.boxShadow = 'var(--shadow)';
+
+                    updateQrInfoBadge(errorLevelVal, marginVal, styleVal, count);
+
+                    downloadSvgButton.disabled = false;
+                    downloadPngButton.disabled = false;
+                    copyQrButton.disabled = false;
+                    return;
+                }
+                showGenerateError("Lỗi: Không thể khởi tạo hình ảnh mã QR.");
+            } catch (err) {
+                console.error("Lỗi khi tạo mã QR:", err);
+                showGenerateError("Không thể tạo mã QR. Vui lòng kiểm tra lại độ dài văn bản.");
+            }
+        }
+
+        generateQrButton.addEventListener('click', generateQRCode);
+
+        qrInputText.addEventListener('input', () => {
+            if (qrInputText.value.trim()) {
+                generateQRCode();
+            } else {
+                downloadSvgButton.disabled = true;
+                downloadPngButton.disabled = true;
+                copyQrButton.disabled = true;
+                qrSvgWrapper.innerHTML = '<p style="color: #94a3b8; margin: 0;">Mã QR sau khi tạo sẽ hiển thị ở đây.</p>';
+                if (qrInfoBadge) qrInfoBadge.style.display = 'none';
+                currentSvgElement = null;
+                hideGenerateError();
             }
         });
 
-        // Khởi tạo trạng thái ban đầu
+        [qrSizeSelect, qrErrorSelect, qrMarginSelect, qrStyleSelect].forEach(selectEl => {
+            selectEl.addEventListener('change', () => {
+                if (qrInputText.value.trim()) {
+                    generateQRCode();
+                }
+            });
+        });
+
+        // Sao chép ảnh QR vào Clipboard
+        copyQrButton.addEventListener('click', async () => {
+            if (!currentSvgElement) return;
+
+            try {
+                const size = parseInt(qrSizeSelect.value, 10) || 350;
+                const serializer = new XMLSerializer();
+                let svgString = serializer.serializeToString(currentSvgElement);
+
+                if (!svgString.match(/^<svg[^>]+"http:\/\/www\.w3\.org\/2000\/svg"/)) {
+                    svgString = svgString.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+                }
+
+                const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+                const url = URL.createObjectURL(svgBlob);
+                const img = new Image();
+
+                img.onload = async () => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = size;
+                    canvas.height = size;
+                    const ctx = canvas.getContext('2d');
+
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0, size, size);
+                    URL.revokeObjectURL(url);
+
+                    canvas.toBlob(async (blob) => {
+                        if (!blob) {
+                            showGenerateError("Lỗi tạo ảnh PNG để sao chép.");
+                            return;
+                        }
+
+                        let copied = false;
+                        if (navigator.clipboard && window.ClipboardItem && typeof navigator.clipboard.write === 'function') {
+                            try {
+                                await navigator.clipboard.write([
+                                    new ClipboardItem({ 'image/png': blob })
+                                ]);
+                                copied = true;
+                            } catch (clipErr) {
+                                console.warn("Lỗi ghi ClipboardItem image/png:", clipErr);
+                            }
+                        }
+
+                        if (copied) {
+                            const originalContent = copyQrButton.innerHTML;
+                            copyQrButton.innerHTML = `<svg width="1.1rem" height="1.1rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Đã chép ảnh QR!`;
+                            copyQrButton.style.backgroundColor = 'var(--success-color)';
+                            setTimeout(() => {
+                                copyQrButton.innerHTML = originalContent;
+                                copyQrButton.style.backgroundColor = '';
+                            }, 2200);
+                        } else {
+                            try {
+                                await navigator.clipboard.writeText(svgString);
+                                const originalContent = copyQrButton.innerHTML;
+                                copyQrButton.innerHTML = `<svg width="1.1rem" height="1.1rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Đã chép mã SVG!`;
+                                copyQrButton.style.backgroundColor = 'var(--success-color)';
+                                setTimeout(() => {
+                                    copyQrButton.innerHTML = originalContent;
+                                    copyQrButton.style.backgroundColor = '';
+                                }, 2200);
+                            } catch (fallbackErr) {
+                                showGenerateError("Trình duyệt hạn chế tự động chép ảnh vào bộ nhớ tạm.");
+                            }
+                        }
+                    }, 'image/png');
+                };
+
+                img.onerror = () => {
+                    showGenerateError("Lỗi khi chuyển đổi mã QR để sao chép.");
+                    URL.revokeObjectURL(url);
+                };
+
+                img.src = url;
+            } catch (err) {
+                showGenerateError("Không thể sao chép ảnh QR. Vui lòng thử lại.");
+                console.error("Lỗi sao chép QR:", err);
+            }
+        });
+
+        // Tải xuống file SVG
+        downloadSvgButton.addEventListener('click', () => {
+            if (!currentSvgElement) return;
+
+            try {
+                const serializer = new XMLSerializer();
+                let svgString = serializer.serializeToString(currentSvgElement);
+
+                if (!svgString.match(/^<svg[^>]+"http:\/\/www\.w3\.org\/2000\/svg"/)) {
+                    svgString = svgString.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+                }
+
+                const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const downloadLink = document.createElement('a');
+                downloadLink.href = url;
+                downloadLink.download = 'ma-qr-DTChanh.svg';
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+                URL.revokeObjectURL(url);
+            } catch (err) {
+                showGenerateError("Không thể tải file SVG. Vui lòng thử lại.");
+                console.error("Lỗi tải SVG:", err);
+            }
+        });
+
+        // Tải xuống file PNG
+        downloadPngButton.addEventListener('click', () => {
+            if (!currentSvgElement) return;
+
+            try {
+                const size = parseInt(qrSizeSelect.value, 10) || 350;
+                const serializer = new XMLSerializer();
+                let svgString = serializer.serializeToString(currentSvgElement);
+
+                if (!svgString.match(/^<svg[^>]+"http:\/\/www\.w3\.org\/2000\/svg"/)) {
+                    svgString = svgString.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+                }
+
+                const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+                const url = URL.createObjectURL(svgBlob);
+                const img = new Image();
+
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = size;
+                    canvas.height = size;
+                    const ctx = canvas.getContext('2d');
+
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0, size, size);
+
+                    URL.revokeObjectURL(url);
+
+                    const pngUrl = canvas.toDataURL('image/png');
+                    const downloadLink = document.createElement('a');
+                    downloadLink.href = pngUrl;
+                    downloadLink.download = 'ma-qr-DTChanh.png';
+                    document.body.appendChild(downloadLink);
+                    downloadLink.click();
+                    document.body.removeChild(downloadLink);
+                };
+
+                img.onerror = () => {
+                    showGenerateError("Lỗi khi chuyển đổi mã QR sang định dạng ảnh PNG.");
+                    URL.revokeObjectURL(url);
+                };
+
+                img.src = url;
+            } catch (err) {
+                showGenerateError("Không thể tải file PNG. Vui lòng thử lại.");
+                console.error("Lỗi tải PNG:", err);
+            }
+        });
+
+        // Khởi tạo trang
         clearResults();
-
     </script>
-
 </body>
 
 </html>
