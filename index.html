@@ -679,15 +679,6 @@
                 </div>
             </div>
 
-            <button id="generate-qr-button" class="btn" style="width: 100%;">
-                <svg width="1.1rem" height="1.1rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="3" width="7" height="7"></rect>
-                    <rect x="14" y="3" width="7" height="7"></rect>
-                    <rect x="14" y="14" width="7" height="7"></rect>
-                    <rect x="3" y="14" width="7" height="7"></rect>
-                </svg> Tạo Mã QR ngay
-            </button>
-
             <div id="generate-error-message" style="display: none; color: var(--error-color); background-color: var(--error-bg); border: 2px solid var(--error-border); padding: 0.6rem; border-radius: 0.6rem; margin-top: 1rem;"></div>
 
             <h2><svg width="1.4rem" height="1.4rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -750,6 +741,9 @@
             tabScan.classList.remove('active');
             generateSection.classList.add('active');
             scanSection.classList.remove('active');
+            if (typeof triggerAutoGenerate === 'function') {
+                triggerAutoGenerate();
+            }
         });
 
         // ==========================================
@@ -1186,7 +1180,6 @@
         const qrErrorSelect = document.getElementById('qr-error-select');
         const qrMarginSelect = document.getElementById('qr-margin-select');
         const qrStyleSelect = document.getElementById('qr-style-select');
-        const generateQrButton = document.getElementById('generate-qr-button');
         const generateErrorMessage = document.getElementById('generate-error-message');
         const qrSvgWrapper = document.getElementById('qr-svg-wrapper');
         const qrInfoBadge = document.getElementById('qr-info-badge');
@@ -1206,6 +1199,20 @@
             generateErrorMessage.style.display = 'none';
         }
 
+        function resetQrOutput() {
+            downloadSvgButton.disabled = true;
+            downloadPngButton.disabled = true;
+            copyQrButton.disabled = true;
+            qrSvgWrapper.innerHTML = '<p style="color: #94a3b8; margin: 0;">Mã QR sau khi tạo sẽ hiển thị ở đây.</p>';
+            qrSvgWrapper.style.padding = '1rem';
+            qrSvgWrapper.style.border = '2px solid var(--border-color)';
+            qrSvgWrapper.style.borderRadius = '0.8rem';
+            qrSvgWrapper.style.boxShadow = 'var(--shadow)';
+            if (qrInfoBadge) qrInfoBadge.style.display = 'none';
+            currentSvgElement = null;
+            hideGenerateError();
+        }
+
         function updateQrInfoBadge(errorLevelVal, marginVal, styleVal, matrixCount = 0) {
             if (!qrInfoBadge) return;
             const ecMap = {
@@ -1214,14 +1221,9 @@
                 'Q': 'Q - Cao (~25%)',
                 'H': 'H - Rất cao (~30%)'
             };
-            const styleMap = {
-                'square': 'Ô vuông chuẩn',
-                'rounded': 'Ô bo góc',
-                'dots': 'Chấm tròn'
-            };
             qrInfoBadge.style.display = 'block';
             const matrixInfo = matrixCount > 0 ? ` | Ma trận: <strong>${matrixCount}×${matrixCount} ô</strong>` : '';
-            qrInfoBadge.innerHTML = `📊 Mức sửa lỗi: <strong>${ecMap[errorLevelVal] || errorLevelVal}</strong> | Lề: <strong>${marginVal} cell</strong> | Kiểu dáng: <strong>${styleMap[styleVal] || styleVal}</strong>${matrixInfo}`;
+            qrInfoBadge.innerHTML = `📊 Mức sửa lỗi: <strong>${ecMap[errorLevelVal] || errorLevelVal}</strong>${matrixInfo}`;
         }
 
         // Tạo ma trận mã QR chuẩn xác 100% bằng thư viện qrcode-generator
@@ -1337,16 +1339,7 @@
             hideGenerateError();
             const text = qrInputText.value ? qrInputText.value.trim() : '';
             if (!text) {
-                showGenerateError("Vui lòng nhập nội dung hoặc liên kết để tạo mã QR.");
-                downloadSvgButton.disabled = true;
-                downloadPngButton.disabled = true;
-                copyQrButton.disabled = true;
-                qrSvgWrapper.innerHTML = '<p style="color: #94a3b8; margin: 0;">Mã QR sau khi tạo sẽ hiển thị ở đây.</p>';
-                qrSvgWrapper.style.padding = '1rem';
-                qrSvgWrapper.style.border = '2px solid var(--border-color)';
-                qrSvgWrapper.style.boxShadow = 'var(--shadow)';
-                if (qrInfoBadge) qrInfoBadge.style.display = 'none';
-                currentSvgElement = null;
+                resetQrOutput();
                 return;
             }
 
@@ -1384,29 +1377,30 @@
             }
         }
 
-        generateQrButton.addEventListener('click', generateQRCode);
-
-        qrInputText.addEventListener('input', () => {
-            if (qrInputText.value.trim()) {
+        function triggerAutoGenerate() {
+            if (qrInputText && qrInputText.value.trim()) {
                 generateQRCode();
             } else {
-                downloadSvgButton.disabled = true;
-                downloadPngButton.disabled = true;
-                copyQrButton.disabled = true;
-                qrSvgWrapper.innerHTML = '<p style="color: #94a3b8; margin: 0;">Mã QR sau khi tạo sẽ hiển thị ở đây.</p>';
-                if (qrInfoBadge) qrInfoBadge.style.display = 'none';
-                currentSvgElement = null;
-                hideGenerateError();
+                resetQrOutput();
+            }
+        }
+
+        ['input', 'change', 'keyup', 'paste'].forEach(evt => {
+            if (qrInputText) {
+                qrInputText.addEventListener(evt, () => {
+                    setTimeout(triggerAutoGenerate, 0);
+                });
             }
         });
 
         [qrSizeSelect, qrErrorSelect, qrMarginSelect, qrStyleSelect].forEach(selectEl => {
-            selectEl.addEventListener('change', () => {
-                if (qrInputText.value.trim()) {
-                    generateQRCode();
-                }
-            });
+            if (selectEl) {
+                selectEl.addEventListener('change', triggerAutoGenerate);
+            }
         });
+
+        // Tự động kiểm tra và khởi tạo ban đầu
+        triggerAutoGenerate();
 
         // Sao chép ảnh QR vào Clipboard
         copyQrButton.addEventListener('click', async () => {

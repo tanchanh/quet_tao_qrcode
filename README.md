@@ -1,56 +1,60 @@
-# 🔍 Trình Quét Mã QR từ Clipboard và File
+# 📱 Quét Và Tạo Mã QR - D.T.Chánh
 
-Ứng dụng web công cụ gọn nhẹ chạy hoàn toàn độc lập, giúp giải mã các mã QR trực tiếp từ ảnh chụp, hình ảnh lưu trữ hoặc dữ liệu sao chép từ bộ nhớ đệm (Clipboard) một cách nhanh chóng và bảo mật.
+Ứng dụng web Single-page gọn nhẹ, hiện đại và bảo mật, chạy trực tiếp trên trình duyệt mà không cần cài đặt. Tích hợp trọn bộ 2 chức năng chính: **Quét & Giải mã QR từ hình ảnh/Clipboard** và **Tạo mã QR tùy chỉnh chất lượng cao (SVG/PNG)**.
 
 ---
 
 ## ✨ Tính Năng Nổi Bật
 
-* **Hoạt động Offline an toàn:** Quá trình phân tích cú pháp dữ liệu hình ảnh và giải mã QR diễn ra hoàn toàn cục bộ trên trình duyệt thông qua thư viện `jsQR`. Ứng dụng tuyệt đối không gửi tập tin hay dữ liệu hình ảnh lên máy chủ, bảo mật thông tin tối đa.
-
-* **Đa phương thức nạp ảnh linh hoạt:**
-* Hỗ trợ đọc dữ liệu ảnh trực tiếp từ bộ nhớ tạm bằng phím tắt hệ thống `Ctrl+V` (hoặc `Cmd+V`).
-
-* Hỗ trợ kéo và thả tệp tin ảnh mã QR trực tiếp vào vùng hiển thị (Drop zone).
-
-* Nhấp chọn truyền thống từ máy tính thông qua hộp thoại tải tệp tin.
-
-* **Quét mã thời gian thực chất lượng cao:** Sử dụng HTML5 Canvas để tái tạo hình ảnh theo đúng kích thước gốc nguyên bản, tối ưu hóa độ chính xác và tăng cường tỷ lệ giải mã thành công đối với các mã QR mờ hoặc phức tạp.
-
-* **Trải nghiệm người dùng mượt mà:** Tích hợp sẵn bộ chỉ báo trạng thái chờ (Loading spinner), hiển thị thông báo lỗi chi tiết khi không tìm thấy mã, và nút sao chép nhanh nội dung sau khi quét thành công.
+### 1. 🔍 Quét & Giải Mã QR
+* **Hoạt động Offline an toàn:** Quá trình phân tích hình ảnh và giải mã QR diễn ra hoàn toàn cục bộ trên thiết bị của bạn. Không gửi ảnh hay dữ liệu cá nhân lên máy chủ.
+* **Nạp ảnh đa phương thức:**
+  * **Dán nhanh từ Clipboard:** Nhấn phím tắt `Ctrl+V` (hoặc `Cmd+V`) hoặc bấm nút **Dán ảnh QR**.
+  * **Chọn tệp tin:** Tải ảnh từ thư viện thiết bị.
+  * **Kéo & Thả (Drag & Drop):** Thả tệp ảnh QR trực tiếp vào khu vực nhận diện.
+* **Trích xuất thông tin tức thì:** Tự động nhận diện và hiển thị chuỗi văn bản/đường dẫn, kèm nút **Sao chép nội dung** tiện lợi.
 
 ---
 
-## 📐 Định Dạng Dữ Liệu Đầu Vào
-
-Để hệ thống xử lý và phân tách mã vạch chính xác, dữ liệu nạp vào cần đảm bảo:
-
-* **Định dạng tệp hỗ trợ:** Tất cả các loại định dạng tệp tin hình ảnh hợp lệ (MIME type bắt đầu bằng `image/*`).
-
-* **Chuẩn hoá sao chép:** Khi sử dụng tính năng dán tự động qua nút bấm, trình duyệt cần được cấp quyền đọc Clipboard nâng cao (Clipboard API). Nếu bị hạn chế quyền, người dùng có thể sử dụng trực tiếp phím tắt để thay thế.
+### 2. 🎨 Tạo Mã QR Tùy Chỉnh
+* **Tự động tạo mã tức thì (Real-time):** Mã QR tự động sinh trực tiếp ngay khi nhập, dán văn bản hoặc thay đổi bất kỳ tùy chọn cấu hình nào mà không cần bấm nút.
+* **Sinh ma trận chuẩn xác 100%:** Sử dụng thuật toán ma trận chuyên dụng tạo mã QR đúng tiêu chuẩn ISO/IEC 18004.
+* **Hiển thị thông tin mã QR ngắn gọn:** Tự động thống kê Mức sửa lỗi và Kích thước ma trận (ví dụ: 25×25 ô).
+* **Tùy chỉnh Mức Sửa Lỗi (Error Correction Level):**
+  * **L - Thấp (~7%):** Tối ưu mật độ ô, thích hợp cho dữ liệu dài.
+  * **M - Trung bình (~15%):** Mặc định chuẩn cân bằng.
+  * **Q - Cao (~25%):** Khôi phục tốt khi mã bị che khuyết một phần.
+  * **H - Rất cao (~30%):** Mức bảo vệ tối đa, phù hợp in ấn hoặc chèn logo.
+* **Tùy chỉnh Lề Khoảng Trắng (Margin / Quiet Zone):**
+  * Hỗ trợ cài đặt lề từ **0 cell** (bỏ hoàn toàn viền trắng ngoài) đến **5 cell**.
+* **Kiểu dáng ô (Style) sáng tạo:**
+  * **Ô vuông chuẩn (Square):** Truyền thống, sắc nét.
+  * **Ô bo góc (Rounded):** Mềm mại, hiện đại.
+  * **Chấm tròn (Dots):** Tinh tế, thẩm mỹ cao.
+* **Kích thước hiển thị linh hoạt:** Thay đổi kích thước từ 250px đến 500px.
+* **Xuất bản & Lưu trữ:**
+  * **Tải về file SVG:** Định dạng Vector không bao giờ vỡ nét khi phóng to hay in ấn.
+  * **Tải về file PNG:** Ảnh bitmap sắc nét chuẩn kích thước lựa chọn.
+  * **Sao chép ảnh QR:** Chép trực tiếp hình ảnh QR vào Clipboard để dán vào Word, Zalo, Messenger, Photoshop,...
 
 ---
 
 ## 🛠️ Hướng Dẫn Sử Dụng
 
-* **Nạp ảnh QR vào hệ thống:**
-* **Cách 1:** Sao chép một hình ảnh mã QR, nhấp nút **Dán ảnh QR (Ctrl+V)** hoặc nhấn tổ hợp phím `Ctrl+V` trên bàn phím.
+### 1. Cách Quét Mã QR
+1. Chuyển sang thẻ **Quét**.
+2. Sao chép ảnh QR rồi nhấn `Ctrl+V` (hoặc nút **Dán ảnh QR**), chọn file ảnh từ máy hoặc kéo thả ảnh vào khung.
+3. Kết quả giải mã sẽ hiển thị ngay bên dưới. Nhấn nút **Sao chép nội dung** để lưu thông tin.
 
-* **Cách 2:** Nhấp nút **Chọn ảnh từ File** để duyệt ảnh từ thiết bị.
-
-* **Cách 3:** Kéo tệp tin hình ảnh mã QR từ máy tính và thả trực tiếp vào khung nét đứt **Ảnh đã tải**.
-
-* **Kiểm tra kết quả giải mã:**
-* Sau khi tải ảnh lên, hệ thống tự động xử lý và kết xuất nội dung ra khung **Nội dung mã QR**.
-
-* Nếu mã QR hợp lệ, thông báo **Quét Thành Công!** màu xanh lá sẽ xuất hiện kèm nội dung văn bản chi tiết bên trong.
-
-* **Sao chép dữ liệu:** Nhấp chọn nút **Chép vào Clipboard** để lưu toàn bộ chuỗi ký tự đã giải mã vào bộ nhớ đệm, sẵn sàng sử dụng cho các mục đích khác.
+### 2. Cách Tạo Mã QR
+1. Chuyển sang thẻ **Tạo**.
+2. Nhập hoặc dán văn bản, số điện thoại hay đường dẫn (URL) vào ô nhập liệu. Mã QR sẽ được tự động tạo ngay lập tức.
+3. Tùy chỉnh các thông số mong muốn: Kích thước, Mức sửa lỗi, Lề khoảng trắng (cell) và Kiểu dáng ô.
+4. Nhấn **Sao chép ảnh QR**, **Tải file SVG** hoặc **Tải file PNG** tùy theo nhu cầu sử dụng.
 
 ---
 
 ## 📝 Thông Tin Phát Triển
 
 * **Tác giả:** Dương Tấn Chánh
-
-* **Công nghệ tích hợp:** HTML5 (Canvas API, Drag and Drop API), CSS3 (Variables & Grid Layout), JavaScript Thuần (Vanilla JS) kết hợp cùng thư viện mã nguồn mở trực tuyến `jsQR.js` hiệu năng cao.
+* **Công nghệ tích hợp:** HTML5, CSS3 (Variables, Flexbox, Grid), Vanilla JavaScript (ES6+), `qrcode-generator`, `ZXing-JS`, Canvas API, SVG DOM API.
